@@ -569,22 +569,27 @@
     if(confirm('确定重置所有文案修改为初始内容？')){localStorage.removeItem(EDIT_KEY);edits={};location.reload();}
   };
   document.getElementById('btnExport').onclick=()=>{
-    const clone=document.documentElement.cloneNode(true);
-    clone.body.classList.remove('editmode');
-    // 清除编辑态 UI，导出干净的成品文件
-    clone.querySelectorAll('#editBar,#editHint,#editToggle').forEach(e=>e.remove());
-    clone.querySelectorAll('[contenteditable]').forEach(e=>e.removeAttribute('contenteditable'));
-    clone.querySelectorAll('.ed').forEach(e=>{e.classList.remove('ed');e.removeAttribute('data-eid');e.removeAttribute('data-edited');});
-    const html='<!DOCTYPE html>\n'+clone.outerHTML;
-    // 尝试自动下载（部分预览面板 iframe 会拦截，下方提供兜底）
     try{
-      const blob=new Blob([html],{type:'text/html'});
-      const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='portfolio.html';
-      document.body.appendChild(a);a.click();a.remove();
-    }catch(e){}
-    // 兜底：弹窗 + 复制
-    document.getElementById('exportText').value=html;
-    document.getElementById('exportModal').style.display='flex';
+      const clone=document.documentElement.cloneNode(true);
+      clone.body.classList.remove('editmode');
+      // 清除编辑态 UI，导出干净的成品文件
+      clone.querySelectorAll('#editBar,#editHint,#editToggle').forEach(e=>e.remove());
+      clone.querySelectorAll('[contenteditable]').forEach(e=>e.removeAttribute('contenteditable'));
+      clone.querySelectorAll('.ed').forEach(e=>{e.classList.remove('ed');e.removeAttribute('data-eid');e.removeAttribute('data-edited');});
+      const html='<!DOCTYPE html>\n'+clone.outerHTML;
+      // 兜底优先：先弹窗（保证一定有可见反馈，不被 iframe 拦截）
+      const m=document.getElementById('exportModal'), t=document.getElementById('exportText');
+      if(m&&t){t.value=html;m.style.display='flex';}
+      else{window.open('data:text/html;charset=utf-8,'+encodeURIComponent(html),'_blank');}
+      // 再尝试自动下载（部分预览面板 iframe 会拦截，上方弹窗已兜底）
+      try{
+        const blob=new Blob([html],{type:'text/html'});
+        const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='portfolio.html';
+        document.body.appendChild(a);a.click();a.remove();
+      }catch(e){}
+    }catch(err){
+      alert('导出遇到问题：'+err.message+'\n请改用 ?edit=1 方式，或直接告诉我需要改的内容，我帮你改并推送。');
+    }
   };
   document.getElementById('btnExportClose').onclick=()=>{document.getElementById('exportModal').style.display='none';};
   document.getElementById('btnCopy').onclick=()=>{

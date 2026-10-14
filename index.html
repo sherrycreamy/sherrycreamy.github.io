@@ -571,7 +571,8 @@
   document.getElementById('btnExport').onclick=()=>{
     try{
       const clone=document.documentElement.cloneNode(true);
-      clone.body.classList.remove('editmode');
+      const cloneBody=clone.querySelector('body');
+      if(cloneBody) cloneBody.classList.remove('editmode');
       // 清除编辑态 UI，导出干净的成品文件
       clone.querySelectorAll('#editBar,#editHint,#editToggle').forEach(e=>e.remove());
       clone.querySelectorAll('[contenteditable]').forEach(e=>e.removeAttribute('contenteditable'));

@@ -27,7 +27,7 @@
   .nav-in a.link{font-size:13.5px;color:var(--muted);padding:7px 12px;border-radius:8px;transition:.2s;font-weight:600}
   .nav-in a.link:hover{color:var(--navy);background:var(--soft)}
   .nav-in a.link.active{color:#fff;background:var(--navy)}
-  .nav-in a.editui{font-size:13px;color:var(--accent-d);border:1px solid var(--accent);padding:6px 12px;border-radius:8px;font-weight:700;cursor:pointer;transition:.2s}
+  .nav-in a.editui{display:none;font-size:13px;color:var(--accent-d);border:1px solid var(--accent);padding:6px 12px;border-radius:8px;font-weight:700;cursor:pointer;transition:.2s}
   .nav-in a.editui:hover{background:var(--accent);color:#fff}
 
   /* HERO */
@@ -562,6 +562,8 @@
     });}
   }
   toggle.onclick=()=>setEdit(!editOn);
+  // 编辑入口默认对访客隐藏，仅通过 ?edit=1 进入（保持公开作品集整洁）
+  if(new URLSearchParams(location.search).get('edit')==='1'){toggle.style.display='inline-block';}
   document.getElementById('btnExit').onclick=()=>setEdit(false);
   document.getElementById('btnReset').onclick=()=>{
     if(confirm('确定重置所有文案修改为初始内容？')){localStorage.removeItem(EDIT_KEY);edits={};location.reload();}

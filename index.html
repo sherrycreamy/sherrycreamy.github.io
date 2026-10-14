@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>曾诗越 · 产品作品集 | Product Portfolio</title>
+<style>
+  :root{
+    --navy:#15233f; --navy2:#1e3257; --accent:#2f6bff; --accent-d:#1f4fd0;
+    --gold:#bfa15a; --bg:#f5f6f8; --card:#ffffff; --ink:#1d2733; --muted:#6b7480;
+    --line:#e6e9ee; --soft:#eef2fb;
+    --shadow:0 14px 36px rgba(21,35,63,.08); --shadow-sm:0 6px 18px rgba(21,35,63,.06);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,-apple-system,"Segoe UI",sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.72;-webkit-font-smoothing:antialiased}
+  .en{font-size:.74em;color:var(--muted);font-weight:500;letter-spacing:.4px}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  a{color:inherit;text-decoration:none}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  .nav-in{max-width:1080px;margin:0 auto;display:flex;align-items:center;gap:4px;padding:13px 24px;flex-wrap:wrap}
+  .brand{font-weight:800;font-size:17px;color:var(--navy);margin-right:auto;display:flex;align-items:center;gap:9px;letter-spacing:.2px}
+  .brand .mark{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--navy),var(--accent));color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800}
+  .nav-in a.link{font-size:13.5px;color:var(--muted);padding:7px 12px;border-radius:8px;transition:.2s;font-weight:600}
+  .nav-in a.link:hover{color:var(--navy);background:var(--soft)}
+  .nav-in a.link.active{color:#fff;background:var(--navy)}
+  .nav-in a.editui{font-size:13px;color:var(--accent-d);border:1px solid var(--accent);padding:6px 12px;border-radius:8px;font-weight:700;cursor:pointer;transition:.2s}
+  .nav-in a.editui:hover{background:var(--accent);color:#fff}
+
+  /* HERO */
+  header.hero{position:relative;overflow:hidden;padding:74px 0 60px;background:linear-gradient(160deg,#15233f 0%,#1e3257 55%,#243a63 100%);color:#fff}
+  .hero-in{display:flex;align-items:center;gap:38px;flex-wrap:wrap;position:relative;z-index:1}
+  .avatar{width:138px;height:138px;border-radius:26px;flex:0 0 auto;box-shadow:0 18px 40px rgba(0,0,0,.28);
+    background:linear-gradient(140deg,#2f6bff,#15233f);display:flex;align-items:center;justify-content:center;overflow:hidden;border:1px solid rgba(255,255,255,.15)}
+  .avatar svg{width:100%;height:100%}
+  .hero-text h1{font-size:36px;line-height:1.15;font-weight:800;letter-spacing:.5px}
+  .hero-text .role{font-size:17px;color:#cfe0ff;font-weight:600;margin-top:7px}
+  .hero-text .tag{margin-top:15px;color:#d7deea;max-width:560px;font-size:14.5px;line-height:1.8}
+  .hero-stats{display:flex;gap:14px;margin-top:24px;flex-wrap:wrap}
+  .stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:13px 18px;min-width:100px;backdrop-filter:blur(4px)}
+  .stat .n{font-size:24px;font-weight:800;color:#fff}
+  .stat .l{font-size:11.5px;color:#aebdd6;margin-top:3px}
+
+  /* SECTION */
+  section{padding:60px 0;scroll-margin-top:72px}
+  .sec-head{margin-bottom:28px}
+  .sec-head .kicker{font-size:12px;font-weight:700;color:var(--accent);letter-spacing:2.5px;text-transform:uppercase}
+  .sec-head h2{font-size:27px;font-weight:800;margin-top:5px;letter-spacing:.3px}
+  .sec-head .sub{color:var(--muted);font-size:13.5px;margin-top:5px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px;box-shadow:var(--shadow-sm);margin-bottom:18px;transition:transform .25s ease,box-shadow .25s ease}
+  .card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+
+  /* ABOUT */
+  .about-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:18px}
+  .facts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+  .fact{background:var(--soft);border-radius:12px;padding:12px 14px}
+  .fact .lab{font-size:11.5px;color:var(--muted)}
+  .fact .val{font-size:15px;font-weight:700;margin-top:2px}
+  .chip{display:inline-block;background:var(--soft);color:var(--navy2);border-radius:18px;padding:6px 13px;font-size:12.5px;font-weight:600;margin:4px 6px 0 0}
+
+  /* TIMELINE jobs */
+  .tl{position:relative;padding-left:28px}
+  .tl::before{content:"";position:absolute;left:8px;top:8px;bottom:8px;width:2px;background:linear-gradient(var(--accent),var(--soft))}
+  .job{position:relative;margin-bottom:6px}
+  .job::before{content:"";position:absolute;left:-24px;top:9px;width:13px;height:13px;border-radius:50%;background:var(--accent);border:3px solid #fff;box-shadow:0 0 0 2px var(--soft)}
+  .job .co{font-size:17px;font-weight:800}
+  .job .meta{font-size:12.5px;color:var(--muted);margin:3px 0 11px}
+  .job .meta b{color:var(--accent-d)}
+  .job ul{list-style:none}
+  .job li{position:relative;padding-left:18px;margin-bottom:8px;font-size:14px}
+  .job li::before{content:"";position:absolute;left:0;top:9px;width:7px;height:7px;border-radius:2px;background:var(--gold)}
+  .job .hi{color:var(--accent-d);font-weight:700}
+
+  /* CASE */
+  .case-hero{background:linear-gradient(135deg,#15233f,#243a63);color:#fff;border-radius:20px;padding:28px;margin-bottom:20px}
+  .case-hero h3{font-size:22px;font-weight:800}
+  .case-hero .lead{color:#d7deea;font-size:14px;margin-top:9px;line-height:1.8}
+  .case-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .case-block h4{font-size:15px;font-weight:800;color:var(--accent-d);margin-bottom:8px;display:flex;align-items:center;gap:9px}
+  .case-block h4 .num{background:var(--navy);color:#fff;width:23px;height:23px;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;font-size:12px}
+  .case-block p,.case-block li{font-size:13.8px;color:#46505d}
+  .case-block ul{list-style:none;margin-top:4px}
+  .case-block li{padding-left:16px;position:relative;margin-bottom:6px}
+  .case-block li::before{content:"›";position:absolute;left:2px;color:var(--gold);font-weight:800}
+
+  /* SMS ARCHITECTURE */
+  .arch-top{text-align:center;margin-bottom:18px}
+  .arch-node{display:inline-block;background:var(--navy);color:#fff;font-weight:800;font-size:16px;padding:14px 26px;border-radius:14px;box-shadow:var(--shadow-sm)}
+  .arch-node .en{color:#aebdd6;display:block;font-size:11px;letter-spacing:1px}
+  .arch-pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px}
+  .pillar{border:1px solid var(--line);border-radius:16px;padding:16px;background:#fff;box-shadow:var(--shadow-sm);transition:transform .25s,box-shadow .25s}
+  .pillar:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+  .pillar .ph{display:flex;align-items:center;gap:8px;font-weight:800;font-size:14.5px;color:var(--navy);margin-bottom:4px}
+  .pillar .ph .ico{width:26px;height:26px;border-radius:8px;background:var(--soft);color:var(--accent-d);display:flex;align-items:center;justify-content:center;font-size:14px}
+  .pillar .ph .en{font-size:10.5px;color:var(--muted);font-weight:600}
+  .pillar ul{list-style:none;margin-top:10px}
+  .pillar li{font-size:12.5px;color:#46505d;padding:5px 0;border-top:1px dashed var(--line)}
+  .pillar li:first-child{border-top:none}
+
+  /* TIMELINE case */
+  .ctimeline{position:relative;margin-top:8px;padding-left:6px}
+  .ct-item{display:flex;gap:16px;padding:10px 0;align-items:flex-start}
+  .ct-dot{flex:0 0 auto;width:14px;height:14px;border-radius:50%;background:var(--accent);margin-top:5px;box-shadow:0 0 0 4px var(--soft);position:relative}
+  .ct-item:not(:last-child) .ct-dot::after{content:"";position:absolute;left:6px;top:14px;width:2px;height:42px;background:var(--line)}
+  .ct-date{font-weight:800;color:var(--navy);font-size:14px;min-width:96px}
+  .ct-body{font-size:13.8px;color:#46505d}
+  .ct-body b{color:var(--accent-d)}
+
+  /* METRICS + CHART */
+  .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:20px}
+  .metric{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 10px;text-align:center;box-shadow:var(--shadow-sm)}
+  .metric .n{font-size:23px;font-weight:800;color:var(--accent-d)}
+  .metric .l{font-size:11px;color:var(--muted);margin-top:3px}
+  .chart{margin-top:18px}
+  .bar-row{display:flex;align-items:center;gap:12px;margin-bottom:13px}
+  .bar-row .bl{font-size:12.5px;width:120px;color:#46505d;flex:0 0 auto}
+  .bar-track{flex:1;background:var(--soft);border-radius:10px;height:26px;overflow:hidden}
+  .bar-fill{height:100%;width:0;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--accent-d));transition:width 1.3s cubic-bezier(.22,1,.36,1);display:flex;align-items:center;justify-content:flex-end;padding-right:9px;color:#fff;font-size:12px;font-weight:700}
+  .bar-fill.gold{background:linear-gradient(90deg,#d8b765,var(--gold))}
+
+  /* SKILLS rings */
+  .rings{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:6px}
+  .ring{text-align:center}
+  .ring svg{width:96px;height:96px}
+  .ring .rl{font-size:12.5px;font-weight:700;color:var(--navy);margin-top:6px}
+  .ring .rp{font-size:11px;color:var(--muted)}
+  .skill-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+  .tag{background:var(--soft);border:1px solid var(--line);border-radius:11px;padding:7px 13px;font-size:13px}
+  .tag.hot{background:#e7eefe;border-color:#cfe0ff;color:var(--accent-d);font-weight:700}
+  .skill-row{margin-bottom:16px}
+  .skill-row .lab{font-size:14px;font-weight:700;margin-bottom:8px}
+
+  /* AI / tech */
+  .ai-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .ai-card{background:#fff;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:14px;padding:22px;box-shadow:var(--shadow-sm)}
+  .ai-card h4{font-size:15.5px;font-weight:800;color:var(--navy);margin-bottom:8px}
+  .ai-card p{font-size:13.8px;color:#46505d}
+
+  /* CONTACT */
+  .contact{background:linear-gradient(135deg,#15233f,#243a63);color:#fff;border-radius:24px;padding:40px;text-align:center}
+  .contact h2{font-size:24px;font-weight:800}
+  .contact p{opacity:.9;margin-top:8px;font-size:14px}
+  .contact .ways{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+  .way{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:14px 20px;min-width:150px}
+  .way .l{font-size:11.5px;opacity:.85}
+  .way .v{font-size:15px;font-weight:700;margin-top:3px;word-break:break-all}
+  footer{text-align:center;color:var(--muted);font-size:12px;padding:32px 0 44px}
+
+  /* EDIT MODE */
+  body.editmode .ed{outline:1px dashed var(--accent);outline-offset:2px;cursor:text;border-radius:4px}
+  body.editmode .ed:hover{background:#eef3ff}
+  #editBar{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:80;display:none;gap:10px;
+    background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 14px;box-shadow:var(--shadow);align-items:center}
+  #editBar.show{display:flex}
+  #editBar button{font-size:13px;font-weight:700;border:none;border-radius:9px;padding:8px 14px;cursor:pointer}
+  #editBar .exp{background:var(--accent);color:#fff}
+  #editBar .rst{background:#f0f1f4;color:var(--ink)}
+  #editBar .ext{background:var(--navy);color:#fff}
+  #editHint{position:fixed;top:64px;left:50%;transform:translateX(-50%);z-index:80;display:none;
+    background:var(--accent);color:#fff;font-size:12.5px;padding:7px 14px;border-radius:20px;box-shadow:var(--shadow)}
+  #editHint.show{display:block}
+
+  .reveal{opacity:0;transform:translateY(20px);transition:.7s cubic-bezier(.22,1,.36,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  @media(max-width:780px){
+    .about-grid,.case-grid,.ai-grid{grid-template-columns:1fr}
+    .arch-pillars{grid-template-columns:1fr 1fr}
+    .rings{grid-template-columns:repeat(3,1fr)}
+    .metrics{grid-template-columns:repeat(2,1fr)}
+    .hero-text h1{font-size:28px}
+    .nav-in a.link{font-size:12px;padding:6px 9px}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <div class="brand"><span class="mark">Z</span>曾诗越 · Zeng Shiyue</div>
+    <a class="link" href="#home" data-sec="home">首页<span class="en"> Home</span></a>
+    <a class="link" href="#about" data-sec="about">关于<span class="en"> About</span></a>
+    <a class="link" href="#exp" data-sec="exp">经历<span class="en"> Experience</span></a>
+    <a class="link" href="#case" data-sec="case">案例<span class="en"> Case</span></a>
+    <a class="link" href="#skills" data-sec="skills">技能<span class="en"> Skills</span></a>
+    <a class="link" href="#tech" data-sec="tech">技术<span class="en"> Tech</span></a>
+    <a class="link" href="#contact" data-sec="contact">联系<span class="en"> Contact</span></a>
+    <a class="editui" id="editToggle">✎ 编辑内容</a>
+  </div>
+</nav>
+
+<header class="hero" id="home">
+  <div class="wrap hero-in">
+    <div class="avatar">
+      <svg viewBox="0 0 138 138">
+        <text x="69" y="69" font-size="58" font-weight="800" fill="#fff" text-anchor="middle" dominant-baseline="central" font-family="PingFang SC,sans-serif">曾</text>
+      </svg>
+    </div>
+    <div class="hero-text">
+      <h1 data-edit="hero_name">曾诗越 <span class="en">Zeng Shiyue</span></h1>
+      <div class="role" data-edit="hero_role">B端产品经理 · B2B Product Manager</div>
+      <div class="tag" data-edit="hero_tag">民航信息化 · SaaS / 低代码 · 数据中台。<br>6 年产品经验，3 年独立负责大型 B端系统从 0 到 1，擅长复杂业务抽象与跨团队落地。</div>
+      <div class="hero-stats">
+        <div class="stat"><div class="n"><span class="cnt" data-target="6" data-suf="年">6年</span></div><div class="l">产品经验</div></div>
+        <div class="stat"><div class="n"><span class="cnt" data-target="21" data-suf="家">21家</span></div><div class="l">服务单位</div></div>
+        <div class="stat"><div class="n"><span class="cnt" data-target="275" data-pre="+" data-suf="%">+275%</span></div><div class="l">效率提升</div></div>
+        <div class="stat"><div class="n"><span class="cnt" data-target="100" data-suf="+">100+</span></div><div class="l">团队管理 / 人</div></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="kicker">About</div>
+      <h2>关于我 <span class="en">About Me</span></h2>
+      <div class="sub">业务抽象能力 + 跨团队落地，是我在 B端最被验证的价值。</div>
+    </div>
+    <div class="about-grid">
+      <div class="card reveal">
+        <h3 style="font-size:16px;font-weight:800;margin-bottom:10px" data-edit="about_ttl">自我评价 <span class="en">Self Assessment</span></h3>
+        <p style="font-size:14px;color:#46505d" data-edit="about_txt">3 年产品经理，主导 B端系统需求—设计—上线全流程；熟悉产品质量与敏捷体系，曾协助管理 100+ 人研发团队。持有软考中级、计算机三级、CET-6，熟练使用墨刀 / Axure 与 SQL，能在需求方、研发与数据之间高效对话。</p>
+        <div class="facts">
+          <div class="fact"><div class="lab">年龄 Age</div><div class="val">29 岁</div></div>
+          <div class="fact"><div class="lab">学历 Edu</div><div class="val">211 本科</div></div>
+          <div class="fact"><div class="lab">经验 Exp</div><div class="val">6 年</div></div>
+          <div class="fact"><div class="lab">城市 City</div><div class="val">广州</div></div>
+        </div>
+      </div>
+      <div class="card reveal">
+        <h3 style="font-size:16px;font-weight:800;margin-bottom:8px" data-edit="edu_ttl">教育背景 <span class="en">Education</span></h3>
+        <p style="font-size:14px" data-edit="edu_txt"><b>中国地质大学（武汉）</b><br>
+          <span class="en">China University of Geosciences (Wuhan)</span><br>
+          信息管理与信息系统 · 2015.9 – 2019.6</p>
+        <div style="margin-top:14px">
+          <h3 style="font-size:16px;font-weight:800;margin-bottom:6px" data-edit="cert_ttl">证书 <span class="en">Certificates</span></h3>
+          <span class="chip">软考中级 · 系统集成项目管理师</span>
+          <span class="chip">计算机三级 · 数据库技术</span>
+          <span class="chip">CET-6 英语六级</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="exp" style="background:#eef1f5">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="kicker">Experience</div>
+      <h2>工作经历 <span class="en">Work Experience</span></h2>
+      <div class="sub">三段均为 B端，主线是「独立负责 + 跨团队落地」。</div>
+    </div>
+    <div class="tl">
+      <div class="job card reveal">
+        <div class="co" data-edit="job1_co">广东机场白云信息科技股份有限公司</div>
+        <div class="meta"><b>产品经理</b> · Product Manager ｜ 2022.9 – 2026.2 ｜ 民航信息化 B端</div>
+        <ul>
+          <li><span class="hi">独立负责广东机场集团安全管理系统从 0 到 1</span>：梳理安全领域 50+ 条业务线，输出 PRD 并推动研发落地。</li>
+          <li>优化审批流，区分核心业务流与自定义审批流；上线后平均处理时间 <span class="hi">-22 分钟</span>，制单填单效率 <span class="hi">+275%</span>。</li>
+          <li>服务集团一、二级 <span class="hi">21 家单位</span>，用户数超 <span class="hi">1 万+</span>。</li>
+          <li>设计跨局域网数据对接方案（应急 / 运控 / 财务），组建中台核心系统数据映射表 10+ 张。</li>
+          <li>协助白云机场消防指挥系统、首都机场智能客服系统重点功能设计与评审。</li>
+        </ul>
+      </div>
+      <div class="job card reveal">
+        <div class="co" data-edit="job2_co">广东道一信息技术股份有限公司</div>
+        <div class="meta"><b>产品助理</b> · Product Assistant ｜ 2020.7 – 2022.9 ｜ 腾讯战略投资 · 企微生态 B端 SaaS</div>
+        <ul>
+          <li>负责 OA / HR / CRM 产品团队管理，熟悉企业微信生态、表单 / 审批 / <span class="hi">SaaS 低代码</span>。</li>
+          <li>推动产品部门季度 OKR，<span class="hi">企微应用市场综合排名 4.1 → 1.2</span>。</li>
+          <li>用自研低代码搭建需求服务工单，累计完成 <span class="hi">59 个需求</span>（紧急且高难占比 28%）。</li>
+          <li>规划超 <span class="hi">50+ 版本</span>，对接销售 / 客成解决上线工单 200 个。</li>
+          <li>协助 100+ 人研发团队管理，编写产品白皮书与版本推文。</li>
+        </ul>
+      </div>
+      <div class="job card reveal">
+        <div class="co" data-edit="job3_co">广东产融科技投资服务有限公司</div>
+        <div class="meta"><b>运营专员</b> · Operations ｜ 2019.7 – 2020.7 ｜ 金融服务中心（初创）</div>
+        <ul>
+          <li>从 0 到 1 搭建公众号与账号运营，线下近 <span class="hi">20 场沙龙</span>活动。</li>
+          <li>负责软文内容、后台数据分析与宣传物料设计。</li>
+          <li>确立产品 UI / 交互规范，参与服务系统后台内容运营。</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="case">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="kicker">Featured Case</div>
+      <h2>深度案例 <span class="en">Featured Case</span></h2>
+      <div class="sub">安全管理系统：一个我从 0 到 1 独立负责的 B端大型系统。</div>
+    </div>
+
+    <div class="case-hero reveal">
+      <h3 data-edit="case_ttl">广东机场集团 · 安全管理系统 <span class="en">Safety Management System</span></h3>
+      <div class="lead" data-edit="case_lead">为集团一、二级 21 家单位打造统一安全管理平台，覆盖安全监察、安全指标等核心模块。独立完成产品规划、需求池管理与重点模块设计，把模糊的民航安全业务转化为可上线、可度量的系统能力。</div>
+    </div>
+
+    <!-- SMS architecture -->
+    <div class="card reveal" style="margin-bottom:20px">
+      <h3 style="font-size:16px;font-weight:800;margin-bottom:4px" data-edit="arch_ttl">系统架构 · 局方 SMS 四大支柱 <span class="en">SMS Four Pillars</span></h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:4px" data-edit="arch_sub">参照民航局方安全管理体系（SMS）框架，将安全业务拆解为四大支柱及十余条核心模块。</p>
+      <div class="arch-top"><span class="arch-node">安全管理系统 SMS<span class="en">SAFETY MANAGEMENT SYSTEM</span></span></div>
+      <div class="arch-pillars">
+        <div class="pillar">
+          <div class="ph"><span class="ico">🛡</span><div>安全政策<div class="en">Safety Policy</div></div></div>
+          <ul>
+            <li>安全目标与承诺</li><li>安全责任制</li><li>安全机构与人员</li>
+            <li>安全文档管理</li><li>应急响应预案</li>
+          </ul>
+        </div>
+        <div class="pillar">
+          <div class="ph"><span class="ico">⚠</span><div>风险管理<div class="en">Risk Management</div></div></div>
+          <ul>
+            <li>危险源识别</li><li>风险评价与缓解</li><li>风险管理流程</li><li>变更管理</li>
+          </ul>
+        </div>
+        <div class="pillar">
+          <div class="ph"><span class="ico">✓</span><div>安全保证<div class="en">Safety Assurance</div></div></div>
+          <ul>
+            <li>安全绩效监测</li><li>安全审核</li><li>事件调查</li>
+            <li>纠正措施</li><li>数据驱动分析</li>
+          </ul>
+        </div>
+        <div class="pillar">
+          <div class="ph"><span class="ico">📣</span><div>安全促进<div class="en">Safety Promotion</div></div></div>
+          <ul>
+            <li>安全培训</li><li>安全文化</li><li>安全沟通</li><li>安全宣传</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- detail blocks -->
+    <div class="case-grid">
+      <div class="case-block card reveal">
+        <h4><span class="num">1</span>背景与目标 <span class="en">Background</span></h4>
+        <p>大型机场集团安全管理长期依赖线下与分散系统，21 家单位流程不统一、数据孤岛严重。目标是<span class="hi">从 0 到 1 搭建统一安全管理系统</span>，将安全监察、安全指标等能力线上化、标准化、可度量。</p>
+      </div>
+      <div class="case-block card reveal">
+        <h4><span class="num">2</span>我的角色 <span class="en">My Role</span></h4>
+        <p>作为产品负责人<span class="hi">独立负责</span>：功能规划设计、需求池管理、重点模块设计与需求评审，并拉通项目 / 研发 / 测试中台多组协同落地。</p>
+      </div>
+      <div class="case-block card reveal">
+        <h4><span class="num">3</span>关键动作 <span class="en">Approach</span></h4>
+        <ul>
+          <li>梳理安全领域 <b>50+ 条业务线</b>，沉淀统一业务模型。</li>
+          <li>区分<b>核心业务流</b>与<b>自定义审批流</b>，优化关键路径体验。</li>
+          <li>设计跨局域网数据对接方案，串联应急 / 运控 / 财务系统。</li>
+          <li>组建 <b>10+ 张</b>数据中台核心系统映射表，打通数据孤岛。</li>
+        </ul>
+      </div>
+      <div class="case-block card reveal">
+        <h4><span class="num">4</span>复盘沉淀 <span class="en">Reflection</span></h4>
+        <ul>
+          <li>复杂 B端系统的关键 = <b>业务抽象</b> + <b>跨团队拉通</b> + <b>分阶段落地</b>。</li>
+          <li>先统一模型再开发，避免后期返工；用数据映射表降低联调成本。</li>
+          <li>质量前置：在开发 / 初验 / 终验节点主动识别风险。</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- timeline -->
+    <div class="card reveal" style="margin-top:18px">
+      <h3 style="font-size:16px;font-weight:800;margin-bottom:10px" data-edit="tl_ttl">建设时间线 <span class="en">Delivery Timeline</span></h3>
+      <div class="ctimeline">
+        <div class="ct-item"><div class="ct-dot"></div><div class="ct-date">2023.04</div><div class="ct-body"><b>项目启动</b>：需求调研、业务建模，确立 SMS 四大支柱框架与整体规划。</div></div>
+        <div class="ct-item"><div class="ct-dot"></div><div class="ct-date">2023.08</div><div class="ct-body"><b>上线安全报告核心业务</b>：安全信息报告 / 事件上报 / 隐患收集先行落地，快速验证价值。</div></div>
+        <div class="ct-item"><div class="ct-dot"></div><div class="ct-date">2024.08</div><div class="ct-body"><b>1.0 系统上线</b>：安全监察、安全指标等核心模块全覆盖，服务 21 家单位。</div></div>
+        <div class="ct-item"><div class="ct-dot"></div><div class="ct-date">2025.08</div><div class="ct-body"><b>2.0 版本</b>：优化业务建模，重构 50+ 业务线模型与自定义审批流，效率 +275%。</div></div>
+        <div class="ct-item"><div class="ct-dot"></div><div class="ct-date">后续</div><div class="ct-body"><b>二期规划</b>：智能预警、安全数据驾驶舱、移动端、AI 辅助决策。</div></div>
+      </div>
+    </div>
+
+    <!-- metrics + chart -->
+    <div class="card reveal" style="margin-top:18px">
+      <h3 style="font-size:16px;font-weight:800;margin-bottom:6px" data-edit="res_ttl">业务成果 <span class="en">Outcomes</span></h3>
+      <div class="metrics">
+        <div class="metric"><div class="n">+275%</div><div class="l">制单填单效率</div></div>
+        <div class="metric"><div class="n">-22min</div><div class="l">平均处理时长</div></div>
+        <div class="metric"><div class="n">21家</div><div class="l">服务单位</div></div>
+        <div class="metric"><div class="n">1万+</div><div class="l">覆盖用户</div></div>
+      </div>
+      <div class="chart">
+        <div class="bar-row"><div class="bl">上线前处理时长</div><div class="bar-track"><div class="bar-fill gold" data-w="100">50 min</div></div></div>
+        <div class="bar-row"><div class="bl">上线后处理时长</div><div class="bar-track"><div class="bar-fill" data-w="56">28 min</div></div></div>
+        <div class="bar-row"><div class="bl">制单填单效率</div><div class="bar-track"><div class="bar-fill" data-w="100">基线 100%</div></div></div>
+        <div class="bar-row"><div class="bl">效率提升后</div><div class="bar-track"><div class="bar-fill" data-w="100" data-label="+275%">375%</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills" style="background:#eef1f5">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="kicker">Skills</div>
+      <h2>能力矩阵 <span class="en">Skills &amp; Tools</span></h2>
+      <div class="sub">产品判断为主，技术理解为辅——能和需求方、研发、数据都对话。</div>
+    </div>
+    <div class="card reveal">
+      <div class="rings" id="rings">
+        <div class="ring"><svg viewBox="0 0 96 96"><circle cx="48" cy="48" r="38" fill="none" stroke="#e6e9ee" stroke-width="9"/><circle class="rg" cx="48" cy="48" r="38" fill="none" stroke="#2f6bff" stroke-width="9" stroke-linecap="round" data-pct="95" transform="rotate(-90 48 48)"/></svg><div class="rl">需求分析</div><div class="rp">95</div></div>
+        <div class="ring"><svg viewBox="0 0 96 96"><circle cx="48" cy="48" r="38" fill="none" stroke="#e6e9ee" stroke-width="9"/><circle class="rg" cx="48" cy="48" r="38" fill="none" stroke="#1f4fd0" stroke-width="9" stroke-linecap="round" data-pct="90" transform="rotate(-90 48 48)"/></svg><div class="rl">业务建模</div><div class="rp">90</div></div>
+        <div class="ring"><svg viewBox="0 0 96 96"><circle cx="48" cy="48" r="38" fill="none" stroke="#e6e9ee" stroke-width="9"/><circle class="rg" cx="48" cy="48" r="38" fill="none" stroke="#bfa15a" stroke-width="9" stroke-linecap="round" data-pct="88" transform="rotate(-90 48 48)"/></svg><div class="rl">跨团队协同</div><div class="rp">88</div></div>
+        <div class="ring"><svg viewBox="0 0 96 96"><circle cx="48" cy="48" r="38" fill="none" stroke="#e6e9ee" stroke-width="9"/><circle class="rg" cx="48" cy="48" r="38" fill="none" stroke="#2f6bff" stroke-width="9" stroke-linecap="round" data-pct="85" transform="rotate(-90 48 48)"/></svg><div class="rl">原型设计</div><div class="rp">85</div></div>
+        <div class="ring"><svg viewBox="0 0 96 96"><circle cx="48" cy="48" r="38" fill="none" stroke="#e6e9ee" stroke-width="9"/><circle class="rg" cx="48" cy="48" r="38" fill="none" stroke="#1f4fd0" stroke-width="9" stroke-linecap="round" data-pct="82" transform="rotate(-90 48 48)"/></svg><div class="rl">项目管理</div><div class="rp">82</div></div>
+      </div>
+    </div>
+    <div class="card reveal">
+      <div class="skill-row"><div class="lab">产品核心能力 <span class="en">Product Core</span></div>
+        <div class="skill-tags"><span class="tag hot">需求分析</span><span class="tag hot">PRD</span><span class="tag hot">产品规划</span><span class="tag">需求池管理</span><span class="tag">原型设计</span><span class="tag">敏捷迭代</span><span class="tag">用户回访</span></div></div>
+      <div class="skill-row"><div class="lab">技术与数据理解 <span class="en">Tech &amp; Data</span></div>
+        <div class="skill-tags"><span class="tag">SQL</span><span class="tag">数据中台</span><span class="tag hot">低代码 / SaaS</span><span class="tag">系统对接方案</span><span class="tag">业务建模</span></div></div>
+      <div class="skill-row" style="margin-bottom:0"><div class="lab">工具 <span class="en">Tools</span></div>
+        <div class="skill-tags"><span class="tag">Axure</span><span class="tag">墨刀</span><span class="tag">SQL</span><span class="tag">Office</span><span class="tag">企业微信生态</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="tech">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="kicker">Tech &amp; AI</div>
+      <h2>技术理解与 AI 应用 <span class="en">Tech &amp; AI Application</span></h2>
+      <div class="sub">AI 是 B端产品的放大器，不是替代——业务正确性的把关人依然是人。</div>
+    </div>
+    <div class="ai-grid">
+      <div class="ai-card reveal"><h4>AI 落地 B端的理解</h4><p>企业最值钱的是私有知识与流程。用 <b>RAG（检索增强）</b>接企业制度 / 知识库，比盲目微调更稳、更可控；AI 负责「找得到、答得快」，人负责「判得对」。</p></div>
+      <div class="ai-card reveal"><h4>幻觉如何防控</h4><p>产品上做四件事：限定回答边界、答案带引用出处、关键动作保留人工闸、对外明确标注「AI 生成需复核」——把风险关进设计里。</p></div>
+      <div class="ai-card reveal"><h4>落地设想</h4><p>把安全管理系统的制度库用 RAG 做成<b>智能问答</b>：一线人员自然语言问合规动作，系统基于制度原文给带出处的解答，减少人工查制度的时间。</p></div>
+      <div class="ai-card reveal"><h4>用 AI 提效</h4><p>把 AI 当搭子：辅助需求分析、PRD 草稿、竞品梳理与文案，但业务结论与方案取舍由我判断——这恰是我 3 年独立负责练出的护城河。</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="contact reveal">
+      <h2>一起聊聊？ <span class="en">Let's Talk</span></h2>
+      <p>正在寻找广州的 B端 / SaaS 产品经理机会，期待与您交流。<br><span class="en">Open to B2B / SaaS PM roles in Guangzhou.</span></p>
+      <div class="ways">
+        <div class="way"><div class="l">邮箱 Email</div><div class="v">872718856@qq.com</div></div>
+        <div class="way"><div class="l">电话 Phone</div><div class="v">15927639200</div></div>
+        <div class="way"><div class="l">城市 City</div><div class="v">广州 Guangzhou</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>© 2026 曾诗越 · 产品作品集 ｜ 内容已脱敏处理，仅供求职交流使用</footer>
+
+<div id="editHint">编辑模式：点击页面任意文字即可修改，修改自动保存</div>
+<div id="editBar">
+  <span style="font-size:13px;color:var(--muted);font-weight:600">内容编辑</span>
+  <button class="exp" id="btnExport">⬇ 导出 HTML</button>
+  <button class="rst" id="btnReset">↺ 重置</button>
+  <button class="ext" id="btnExit">✕ 退出</button>
+</div>
+
+<script>
+  /* ---------- scroll-spy ---------- */
+  const links=[...document.querySelectorAll('.nav-in a.link')];
+  const secs=links.map(a=>document.getElementById(a.dataset.sec));
+  const spy=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const id=e.target.id;links.forEach(l=>l.classList.toggle('active',l.dataset.sec===id));}});},{rootMargin:'-45% 0px -50% 0px'});
+  secs.forEach(s=>s&&spy.observe(s));
+  links[0].classList.add('active');
+
+  /* ---------- reveal ---------- */
+  const rev=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');rev.unobserve(e.target);}});},{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>rev.observe(el));
+
+  /* ---------- counters ---------- */
+  function animateCount(el){
+    const target=parseFloat(el.dataset.target), dec=parseInt(el.dataset.dec||0);
+    const pre=el.dataset.pre||'', suf=el.dataset.suf||''; const dur=1500; let start=null;
+    function step(ts){if(!start)start=ts;const p=Math.min((ts-start)/dur,1);const e=1-Math.pow(1-p,3);
+      el.textContent=pre+(dec? (target*e).toFixed(dec):Math.round(target*e))+suf;
+      if(p<1)requestAnimationFrame(step);else el.textContent=pre+(dec?target.toFixed(dec):target)+suf;}
+    requestAnimationFrame(step);
+  }
+  const cntObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){if(!e.target.dataset.edited)animateCount(e.target);cntObs.unobserve(e.target);}});},{threshold:.5});
+  document.querySelectorAll('.cnt').forEach(el=>cntObs.observe(el));
+
+  /* ---------- bars ---------- */
+  const barObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const f=e.target;const w=f.dataset.w;setTimeout(()=>{f.style.width=w+'%';},120);barObs.unobserve(f);}});},{threshold:.4});
+  document.querySelectorAll('.bar-fill').forEach(el=>barObs.observe(el));
+
+  /* ---------- rings ---------- */
+  function setRing(c){
+    const pct=+c.dataset.pct, r=38, C=2*Math.PI*r; const off=C*(1-pct/100);
+    c.style.strokeDasharray=C; c.style.strokeDashoffset=C; c.style.transition='stroke-dashoffset 1.4s cubic-bezier(.22,1,.36,1)';
+    setTimeout(()=>{c.style.strokeDashoffset=off;},150);
+  }
+  const ringObs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){setRing(e.target);ringObs.unobserve(e.target);}});},{threshold:.4});
+  document.querySelectorAll('.rg').forEach(el=>ringObs.observe(el));
+
+  /* ---------- content edit (GLOBAL) ---------- */
+  const EDIT_KEY='portfolio_edits_v2';
+  function loadEdits(){try{return JSON.parse(localStorage.getItem(EDIT_KEY)||'{}');}catch(e){return{}}}
+  function saveEdits(o){localStorage.setItem(EDIT_KEY,JSON.stringify(o));}
+  const BLACK=['SCRIPT','STYLE','SVG','BUTTON','INPUT','SELECT','TEXTAREA'];
+  function hasDirectText(el){for(const n of el.childNodes){if(n.nodeType===3 && n.textContent.trim())return true;}return false;}
+  function collectEditable(){
+    const out=[];
+    (function walk(el){
+      for(const child of el.children){
+        if(BLACK.includes(child.tagName)) continue;
+        if(child.closest('nav')||child.closest('head')||child.closest('#editBar')||child.closest('#editHint')) continue;
+        walk(child);
+        if(hasDirectText(child)) out.push(child);
+      }
+    })(document.body);
+    // keep only outermost text-bearing containers (avoid nested contenteditable)
+    return out.filter(c=>!out.some(o=>o!==c && o.contains(c)));
+  }
+  function eid(el){
+    const parts=[]; let e=el;
+    while(e && e.parentElement && e.parentElement!==document.body){
+      const tag=e.tagName;
+      const same=[...e.parentElement.children].filter(c=>c.tagName===tag);
+      parts.push(tag+(same.indexOf(e)+1));
+      e=e.parentElement;
+    }
+    return parts.reverse().join('/');
+  }
+  let ED=collectEditable();
+  ED.forEach(el=>{el.classList.add('ed'); el.dataset.eid=eid(el);});
+  let edits=loadEdits();
+  ED.forEach(el=>{const k=el.dataset.eid; if(edits[k]!=null){el.innerHTML=edits[k]; if(el.classList.contains('cnt'))el.dataset.edited='1';}});
+  const toggle=document.getElementById('editToggle');
+  const bar=document.getElementById('editBar');
+  const hint=document.getElementById('editHint');
+  let editOn=false;
+  function setEdit(on){
+    editOn=on; document.body.classList.toggle('editmode',on);
+    bar.classList.toggle('show',on); hint.classList.toggle('show',on);
+    toggle.textContent=on?'✓ 编辑中':'✎ 编辑内容';
+    ED.forEach(el=>{el.contentEditable=on?'true':'false';});
+    if(on){ED.forEach(el=>{
+      el.onblur=()=>{edits[el.dataset.eid]=el.innerHTML;saveEdits(edits);};
+      el.onkeydown=e=>{if(e.key==='Enter'&&e.metaKey){el.blur();}};
+    });}
+  }
+  toggle.onclick=()=>setEdit(!editOn);
+  document.getElementById('btnExit').onclick=()=>setEdit(false);
+  document.getElementById('btnReset').onclick=()=>{
+    if(confirm('确定重置所有文案修改为初始内容？')){localStorage.removeItem(EDIT_KEY);edits={};location.reload();}
+  };
+  document.getElementById('btnExport').onclick=()=>{
+    const clone=document.documentElement.cloneNode(true);
+    clone.body.classList.remove('editmode');
+    clone.querySelectorAll('[contenteditable]').forEach(e=>e.removeAttribute('contenteditable'));
+    clone.querySelectorAll('.ed').forEach(e=>{e.classList.remove('ed');e.removeAttribute('data-eid');e.removeAttribute('data-edited');});
+    const html='<!DOCTYPE html>\n'+clone.outerHTML;
+    const blob=new Blob([html],{type:'text/html'});
+    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='portfolio.html';a.click();
+  };
+</script>
+</body>
+</html>

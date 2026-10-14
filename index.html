@@ -465,6 +465,18 @@
   <button class="ext" id="btnExit">✕ 退出</button>
 </div>
 
+<div id="exportModal" style="display:none;position:fixed;inset:0;z-index:200;background:rgba(10,18,34,.55);align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(2px)">
+  <div style="background:#fff;border-radius:16px;max-width:760px;width:100%;padding:22px 24px;box-shadow:0 20px 60px rgba(0,0,0,.3)">
+    <h3 style="margin:0 0 6px;color:#15233f;font-size:17px">导出 HTML 完成 ✅</h3>
+    <p style="margin:0 0 12px;color:#6b7280;font-size:13px;line-height:1.5">若浏览器未自动下载文件，请复制下方<strong>全部内容</strong>，保存为 <code>portfolio.html</code> 后发我，我帮你推送上线。</p>
+    <textarea id="exportText" spellcheck="false" style="width:100%;height:260px;box-sizing:border-box;border:1px solid #d9dde5;border-radius:10px;padding:12px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;line-height:1.5;resize:vertical;color:#15233f"></textarea>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:12px">
+      <button id="btnCopy" style="font-size:13px;font-weight:700;border:none;border-radius:9px;padding:9px 16px;cursor:pointer;background:#2f6bff;color:#fff">📋 复制全部</button>
+      <button id="btnExportClose" style="font-size:13px;font-weight:700;border:none;border-radius:9px;padding:9px 16px;cursor:pointer;background:#f0f1f4;color:#15233f">关闭</button>
+    </div>
+  </div>
+</div>
+
 <script>
   /* ---------- scroll-spy ---------- */
   const links=[...document.querySelectorAll('.nav-in a.link')];
@@ -557,11 +569,27 @@
   document.getElementById('btnExport').onclick=()=>{
     const clone=document.documentElement.cloneNode(true);
     clone.body.classList.remove('editmode');
+    // 清除编辑态 UI，导出干净的成品文件
+    clone.querySelectorAll('#editBar,#editHint,#editToggle').forEach(e=>e.remove());
     clone.querySelectorAll('[contenteditable]').forEach(e=>e.removeAttribute('contenteditable'));
     clone.querySelectorAll('.ed').forEach(e=>{e.classList.remove('ed');e.removeAttribute('data-eid');e.removeAttribute('data-edited');});
     const html='<!DOCTYPE html>\n'+clone.outerHTML;
-    const blob=new Blob([html],{type:'text/html'});
-    const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='portfolio.html';a.click();
+    // 尝试自动下载（部分预览面板 iframe 会拦截，下方提供兜底）
+    try{
+      const blob=new Blob([html],{type:'text/html'});
+      const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='portfolio.html';
+      document.body.appendChild(a);a.click();a.remove();
+    }catch(e){}
+    // 兜底：弹窗 + 复制
+    document.getElementById('exportText').value=html;
+    document.getElementById('exportModal').style.display='flex';
+  };
+  document.getElementById('btnExportClose').onclick=()=>{document.getElementById('exportModal').style.display='none';};
+  document.getElementById('btnCopy').onclick=()=>{
+    const ta=document.getElementById('exportText');
+    const done=()=>{const b=document.getElementById('btnCopy');b.textContent='✓ 已复制';setTimeout(()=>{b.textContent='📋 复制全部';},1500);};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(ta.value).then(done).catch(()=>{ta.select();document.execCommand('copy');done();});}
+    else{ta.select();document.execCommand('copy');done();}
   };
 </script>
 </body>

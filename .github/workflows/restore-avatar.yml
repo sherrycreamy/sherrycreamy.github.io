@@ -1,0 +1,26 @@
+name: Restore avatar model
+on:
+  workflow_dispatch:
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download avatar GLB from temporary release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          mkdir -p vendor
+          url=$(gh api repos/${{ github.repository }}/releases/tags/deploy-avatar-asset --jq '.assets[] | select(.name == "avatar.glb") | .url')
+          curl -L --fail --retry 3 -H "Authorization: token $GH_TOKEN" -H "Accept: application/octet-stream" "$url" -o vendor/avatar.glb
+          test $(stat -c%s vendor/avatar.glb) -gt 1000000
+      - name: Commit model
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add vendor/avatar.glb
+          git diff --cached --quiet || git commit -m "Add original avatar model"
+          git push

@@ -458,6 +458,7 @@ body.flat #gl,body.flat #labels{display:none}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
+    <link rel="preload" as="fetch" href="vendor/avatar-lite.glb" crossorigin="anonymous">
 </head>
 <body>
 <canvas id="gl"></canvas>
@@ -545,6 +546,7 @@ window.SITE = {
   },
   "avatar": {
     "model": "vendor/avatar.glb",
+    "modelLite": "vendor/avatar-lite.glb",
     "modelHeight": 2.5,
     "modelEmissive": 0.32,
     "modelEmissiveColor": "#FFF2E4",
@@ -2263,9 +2265,9 @@ function buildAvatar(K, cfg) {
 }
 
 /* ---------- 用 GLB 手办模型做小人（可选） ---------- */
-async function buildGLBAvatar(T, K, cfg) {
+async function buildGLBAvatar(T, K, cfg, srcOverride) {
   const GL = await loadGLTFLoader(); if (!GL) return null;
-  const base = String(cfg.model || "vendor/avatar.glb");
+  const base = String(srcOverride || cfg.model || "vendor/avatar.glb");
   const srcs = base.startsWith("http") || base.startsWith("data:") ? [base] : [base, "https://" + location.host + "/" + base.replace(/^\//, "")];
   let gltf = null;
   for (const src of srcs) { try { gltf = await new Promise((res, rej) => new GL().load(src, res, undefined, rej)); break; } catch (e) {} }
@@ -2376,19 +2378,30 @@ async function boot3D() {
   // dust
   const dGeo = new T.BufferGeometry(), dN = 120, dPos = new Float32Array(dN * 3); for (let i = 0; i < dN; i++) { dPos[i * 3] = (Math.random() - .5) * 12; dPos[i * 3 + 1] = Math.random() * 7.5; dPos[i * 3 + 2] = (Math.random() - .5) * 12; }
   dGeo.setAttribute("position", new T.BufferAttribute(dPos, 3)); const dust = new T.Points(dGeo, new T.PointsMaterial({ color: "#FFFFFF", size: .06, transparent: true, opacity: .55, depthWrite: false, map: steamTex })); root.add(dust);
-  // avatar（SITE.avatar.model 指定 GLB 时优先用手办模型，加载失败回退到内置小人）
-  // 手办 GLB 可能较大（网络慢时下载耗时），先用内置小人占位让场景秒开，
-  // GLB 后台加载完成后原地替换，不阻塞首屏进度。
-  let av = buildAvatar(K, SITE.avatar);
-  const AVP = (room && room.avatarAt) || preset.avatarAt || [1.8, 0, 1.3]; at3(av, ...AVP); root.add(av);
+  // avatar：个人手办优先。两阶段加载——精简版手办随首屏登场（个人设计立刻被看见），
+  // 高清版后台静默下载，完成后原地无感替换，并同步骑行 / 步态 / 朝向姿态。
+  const AVP = (room && room.avatarAt) || preset.avatarAt || [1.8, 0, 1.3];
+  let av = buildAvatar(K, SITE.avatar); // 内置小人仅作兜底（两个 GLB 都失败时）
+  at3(av, ...AVP); root.add(av);
+  function swapAvatar(next) {
+    if (!next) return;
+    const prev = av, pp = prev.userData, np = next.userData;
+    next.position.copy(prev.position); next.rotation.copy(prev.rotation);
+    if (pp.body && np.body) { np.body.position.copy(pp.body.position); np.body.rotation.copy(pp.body.rotation); np.body.scale.copy(pp.body.scale); }
+    if (pp.model && np.model) { np.model.rotation.copy(pp.model.rotation); np.model.position.copy(pp.model.position); np.model.scale.copy(pp.model.scale); }
+    if (pp.walk && np.walk) { np.walk.phase.value = pp.walk.phase.value; np.walk.amp.value = pp.walk.amp.value; }
+    root.remove(prev); root.add(next); av = next;
+  }
   if (SITE.avatar && SITE.avatar.model) {
-    buildGLBAvatar(T, K, SITE.avatar).then(glb => {
-      if (!glb) return; // 加载失败保留内置小人
-      glb.position.copy(av.position); glb.rotation.y = av.rotation.y;
-      const pb = av.userData.body, nb = glb.userData.body;
-      if (pb && nb) { nb.position.copy(pb.position); nb.rotation.copy(pb.rotation); }
-      root.remove(av); root.add(glb); av = glb;
-    }).catch(() => {});
+    // 阶段 1：精简版手办随首屏加载条一起出现，第一眼就是个人设计
+    const lite = SITE.avatar.modelLite;
+    if (lite) {
+      LOADER.to(.58, "你的手办正在登场…");
+      const liteAvatar = await buildGLBAvatar(T, K, SITE.avatar, lite).catch(() => null);
+      if (liteAvatar) swapAvatar(liteAvatar);
+    }
+    // 阶段 2：高清版后台加载，完成后无感替换（失败则保留精简版）
+    buildGLBAvatar(T, K, SITE.avatar).then(swapAvatar).catch(() => {});
   }
   LOADER.to(.75, "快好了…");
 

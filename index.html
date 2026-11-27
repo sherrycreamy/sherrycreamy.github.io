@@ -145,8 +145,8 @@ body.flat #gl,body.flat #labels{display:none}
 @keyframes hbin{from{opacity:0;transform:translateY(18px) scale(.97)}}
 
 /* bento cards shared */
-.hb{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
-.hb>section{position:relative;grid-column:span 3;border-radius:22px;padding:20px;background:var(--hbg,#fff);border:1.5px solid rgba(28,35,66,.08);min-width:0;overflow:hidden;display:flex;flex-direction:column;gap:10px;animation:hbin .55s cubic-bezier(.2,.9,.3,1) backwards}
+.hb{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+.hb>section{position:relative;grid-column:span 3;border-radius:20px;padding:16px;background:var(--hbg,#fff);border:1.5px solid rgba(28,35,66,.08);min-width:0;overflow:hidden;display:flex;flex-direction:column;gap:8px;animation:hbin .55s cubic-bezier(.2,.9,.3,1) backwards}
 .hb>section.wide{grid-column:1/-1}
 .hb>section.w2{grid-column:span 4}
 .hb>section.w1{grid-column:span 2}
@@ -342,19 +342,20 @@ body.flat #gl,body.flat #labels{display:none}
 .hike svg{width:100%;height:130px;display:block}
 .hike .walker{transition:offset-distance 3s ease-in-out}
 
-/* motion hobbies：游泳 / 滑雪 / 乒乓 / 摄影 / 唱歌 */
-.mo{display:flex;flex-direction:column;gap:12px;flex:1}
-.mo-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
-.mo-card{position:relative;background:rgba(255,255,255,.7);border-radius:14px;padding:8px 6px 9px;text-align:center;overflow:hidden;box-shadow:0 4px 12px rgba(28,35,66,.07);min-width:0}
+/* motion hobbies：游泳 / 滑雪 / 乒乓 / 摄影 / 唱歌（点击单卡播放一次循环） */
+.mo{display:flex;flex-direction:column;gap:8px;flex:1}
+.mo-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.mo-card{position:relative;background:rgba(255,255,255,.7);border-radius:14px;padding:8px 6px 9px;text-align:center;overflow:hidden;box-shadow:0 4px 12px rgba(28,35,66,.07);min-width:0;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.mo-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(28,35,66,.13)}
+.mo-card:active{transform:translateY(-1px)}
 .mo-card svg{width:100%;height:auto;display:block;border-radius:9px}
-.mo-card b{display:block;margin-top:7px;font-family:var(--f-hand-cn);font-size:13px;color:var(--ink);letter-spacing:.02em}
-.mo .go{cursor:pointer;transition:transform .2s,background .2s}
-.mo .go:hover{transform:translateY(-2px)}
+.mo-card b{display:block;margin-top:6px;font-family:var(--f-hand-cn);font-size:13px;color:var(--ink);letter-spacing:.02em}
+/* 关键帧首尾一致：单次循环结束自然回到初态，不会跳变 */
 @keyframes moSwim{0%,100%{transform:translate(-5px,1px) rotate(-3deg)}50%{transform:translate(5px,-2px) rotate(3deg)}}
 @keyframes moArm{0%,100%{transform:rotate(-28deg)}50%{transform:rotate(42deg)}}
-@keyframes moWave{to{transform:translateX(-24px)}}
-@keyframes moSki{0%{transform:translate(-4px,-3px)}100%{transform:translate(40px,24px)}}
-@keyframes moSnow{to{transform:translate(10px,24px);opacity:.1}}
+@keyframes moWave{0%{transform:translateX(0)}100%{transform:translateX(-40px)}}
+@keyframes moSki{0%,100%{transform:translate(-4px,-3px)}50%{transform:translate(40px,24px)}}
+@keyframes moSnow{0%{transform:translate(0,0);opacity:0}18%{opacity:.9}100%{transform:translate(10px,24px);opacity:0}}
 @keyframes moBall{0%,100%{transform:translate(0,0)}50%{transform:translate(54px,-15px)}}
 @keyframes moPadL{0%,100%{transform:rotate(-22deg)}50%{transform:rotate(12deg)}}
 @keyframes moPadR{0%,100%{transform:rotate(22deg)}50%{transform:rotate(-12deg)}}
@@ -362,19 +363,19 @@ body.flat #gl,body.flat #labels{display:none}
 @keyframes moPaper{0%,100%{transform:translateY(7px)}50%{transform:translateY(-3px)}}
 @keyframes moNote{0%{opacity:0;transform:translateY(12px) scale(.7)}20%{opacity:1}100%{opacity:0;transform:translateY(-26px) scale(1.15)}}
 @keyframes moWaveArc{0%,100%{transform:scaleX(.55);opacity:.25}50%{transform:scaleX(1);opacity:.85}}
-.mo.playing .sw-body{animation:moSwim 1.5s ease-in-out infinite}
-.mo.playing .sw-arm{animation:moArm .75s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
-.mo.playing .sw-wave{animation:moWave 1.4s linear infinite}
-.mo.playing .sk-body{animation:moSki 2.1s ease-in-out infinite alternate}
-.mo.playing .sk-snow{animation:moSnow 1.5s linear infinite}
-.mo.playing .tt-ball{animation:moBall 1s ease-in-out infinite}
-.mo.playing .tt-l{animation:moPadL 1s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
-.mo.playing .tt-r{animation:moPadR 1s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
-.mo.playing .ph-flash{animation:moFlash 1.8s ease-out infinite;transform-box:fill-box;transform-origin:center}
-.mo.playing .ph-paper{animation:moPaper 1.8s ease-in-out infinite}
-.mo.playing .sg-note{animation:moNote 1.7s ease-out infinite}
-.mo.playing .sg-wave{animation:moWaveArc .95s ease-in-out infinite;transform-box:fill-box;transform-origin:left center}
-@media (prefers-reduced-motion:reduce){.mo.playing *{animation:none!important}}
+.mo-card.play .sw-body{animation:moSwim 1.5s ease-in-out 1}
+.mo-card.play .sw-arm{animation:moArm .75s ease-in-out 1;transform-box:fill-box;transform-origin:center}
+.mo-card.play .sw-wave{animation:moWave 1.4s linear 1}
+.mo-card.play .sk-body{animation:moSki 2.1s ease-in-out 1}
+.mo-card.play .sk-snow{animation:moSnow 1.5s linear 1}
+.mo-card.play .tt-ball{animation:moBall 1s ease-in-out 1}
+.mo-card.play .tt-l{animation:moPadL 1s ease-in-out 1;transform-box:fill-box;transform-origin:center}
+.mo-card.play .tt-r{animation:moPadR 1s ease-in-out 1;transform-box:fill-box;transform-origin:center}
+.mo-card.play .ph-flash{animation:moFlash 1.8s ease-out 1;transform-box:fill-box;transform-origin:center}
+.mo-card.play .ph-paper{animation:moPaper 1.8s ease-in-out 1}
+.mo-card.play .sg-note{animation:moNote 1.7s ease-out 1}
+.mo-card.play .sg-wave{animation:moWaveArc .95s ease-in-out 1;transform-box:fill-box;transform-origin:left center}
+@media (prefers-reduced-motion:reduce){.mo-card.play *{animation:none!important}}
 
 /* travel */
 .tvmap{position:relative;border-radius:16px;overflow:hidden;background:#1C2342;aspect-ratio:16/10}
@@ -929,15 +930,6 @@ window.SITE = {
             "widget": "gacha"
           },
           {
-            "t": "动起来",
-            "en": "in motion",
-            "d": "从 0 到 1 搭公众号、做过近 20 场沙龙；下班后还游泳、滑雪、打乒乓、摄影、唱歌。点一下，看它们动起来。",
-            "c": "#FFE3CF",
-            "i": "ball",
-            "widget": "motion",
-            "wide": true
-          },
-          {
             "t": "城市足迹",
             "en": "stamps",
             "d": "去过的城市盖个章，高德足迹截图里能读到的城市已经放上去了。",
@@ -945,6 +937,15 @@ window.SITE = {
             "i": "pin",
             "widget": "stamps",
             "go": "travel"
+          },
+          {
+            "t": "运动爱好",
+            "en": "in motion",
+            "d": "点一下图片，看它们动起来。",
+            "c": "#FFE3CF",
+            "i": "ball",
+            "widget": "motion",
+            "wide": true
           }
         ]
       }
@@ -1548,9 +1549,25 @@ const MOSVG = {
 const WIDGETS = {
   motion(el, h) {
     const list = h.motions || [{ n: "游泳", s: "swim" }, { n: "滑雪", s: "ski" }, { n: "乒乓球", s: "tt" }, { n: "摄影", s: "photo" }, { n: "唱歌", s: "sing" }];
-    el.innerHTML = `<div class="mo"><div class="mo-grid">${list.map(it => `<div class="mo-card">${MOSVG[it.s] || ""}<b>${esc(it.n)}</b></div>`).join("")}</div><button type="button" class="go" id="moBtn">▶ 让它们动起来</button></div>`;
-    const box = el.querySelector(".mo"), btn = el.querySelector("#moBtn");
-    btn.onclick = () => { const on = box.classList.toggle("playing"); btn.textContent = on ? "⏸ 暂停一下" : "▶ 让它们动起来"; };
+    el.innerHTML = `<div class="mo"><div class="mo-grid">${list.map(it => `<div class="mo-card" role="button" tabindex="0" title="点一下，看它动起来">${MOSVG[it.s] || ""}<b>${esc(it.n)}</b></div>`).join("")}</div></div>`;
+    const cards = [...el.querySelectorAll(".mo-card")];
+    cards.forEach(card => {
+      const playOnce = () => {
+        card.classList.remove("play");
+        void card.offsetWidth; // 强制重排，保证连点时动画从头播放
+        card.classList.add("play");
+        // 取该卡内最长动画时长，播完移除 play，恢复静态、可再次触发
+        let max = 0;
+        card.querySelectorAll("svg *").forEach(node => {
+          const a = getComputedStyle(node).animationDuration.split(",");
+          a.forEach(v => { max = Math.max(max, parseFloat(v) * (v.trim().endsWith("ms") ? 1 : 1000)); });
+        });
+        clearTimeout(card._moTimer);
+        card._moTimer = setTimeout(() => card.classList.remove("play"), (max || 2500) + 80);
+      };
+      card.addEventListener("click", playOnce);
+      card.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); playOnce(); } });
+    });
   },
   piano(el) {
     const whites = [60, 62, 64, 65, 67, 69, 71, 72, 74, 76, 77, 79, 81, 83, 84], kmap = "asdfghjkl;'".split("");

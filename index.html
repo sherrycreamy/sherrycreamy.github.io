@@ -342,6 +342,40 @@ body.flat #gl,body.flat #labels{display:none}
 .hike svg{width:100%;height:130px;display:block}
 .hike .walker{transition:offset-distance 3s ease-in-out}
 
+/* motion hobbies：游泳 / 滑雪 / 乒乓 / 摄影 / 唱歌 */
+.mo{display:flex;flex-direction:column;gap:12px;flex:1}
+.mo-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.mo-card{position:relative;background:rgba(255,255,255,.7);border-radius:14px;padding:8px 6px 9px;text-align:center;overflow:hidden;box-shadow:0 4px 12px rgba(28,35,66,.07);min-width:0}
+.mo-card svg{width:100%;height:auto;display:block;border-radius:9px}
+.mo-card b{display:block;margin-top:7px;font-family:var(--f-hand-cn);font-size:13px;color:var(--ink);letter-spacing:.02em}
+.mo .go{cursor:pointer;transition:transform .2s,background .2s}
+.mo .go:hover{transform:translateY(-2px)}
+@keyframes moSwim{0%,100%{transform:translate(-5px,1px) rotate(-3deg)}50%{transform:translate(5px,-2px) rotate(3deg)}}
+@keyframes moArm{0%,100%{transform:rotate(-28deg)}50%{transform:rotate(42deg)}}
+@keyframes moWave{to{transform:translateX(-24px)}}
+@keyframes moSki{0%{transform:translate(-4px,-3px)}100%{transform:translate(40px,24px)}}
+@keyframes moSnow{to{transform:translate(10px,24px);opacity:.1}}
+@keyframes moBall{0%,100%{transform:translate(0,0)}50%{transform:translate(54px,-15px)}}
+@keyframes moPadL{0%,100%{transform:rotate(-22deg)}50%{transform:rotate(12deg)}}
+@keyframes moPadR{0%,100%{transform:rotate(22deg)}50%{transform:rotate(-12deg)}}
+@keyframes moFlash{0%,100%{opacity:0;transform:scale(.4)}10%{opacity:1;transform:scale(1)}26%{opacity:0;transform:scale(.7)}}
+@keyframes moPaper{0%,100%{transform:translateY(7px)}50%{transform:translateY(-3px)}}
+@keyframes moNote{0%{opacity:0;transform:translateY(12px) scale(.7)}20%{opacity:1}100%{opacity:0;transform:translateY(-26px) scale(1.15)}}
+@keyframes moWaveArc{0%,100%{transform:scaleX(.55);opacity:.25}50%{transform:scaleX(1);opacity:.85}}
+.mo.playing .sw-body{animation:moSwim 1.5s ease-in-out infinite}
+.mo.playing .sw-arm{animation:moArm .75s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.mo.playing .sw-wave{animation:moWave 1.4s linear infinite}
+.mo.playing .sk-body{animation:moSki 2.1s ease-in-out infinite alternate}
+.mo.playing .sk-snow{animation:moSnow 1.5s linear infinite}
+.mo.playing .tt-ball{animation:moBall 1s ease-in-out infinite}
+.mo.playing .tt-l{animation:moPadL 1s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.mo.playing .tt-r{animation:moPadR 1s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.mo.playing .ph-flash{animation:moFlash 1.8s ease-out infinite;transform-box:fill-box;transform-origin:center}
+.mo.playing .ph-paper{animation:moPaper 1.8s ease-in-out infinite}
+.mo.playing .sg-note{animation:moNote 1.7s ease-out infinite}
+.mo.playing .sg-wave{animation:moWaveArc .95s ease-in-out infinite;transform-box:fill-box;transform-origin:left center}
+@media (prefers-reduced-motion:reduce){.mo.playing *{animation:none!important}}
+
 /* travel */
 .tvmap{position:relative;border-radius:16px;overflow:hidden;background:#1C2342;aspect-ratio:16/10}
 .tvmap svg{width:100%;height:100%;display:block}
@@ -438,6 +472,7 @@ body.flat #gl,body.flat #labels{display:none}
   .pbody{padding:30px 18px 40px}
   .hb{grid-template-columns:1fr}
   .hb>section,.hb>section.w2,.hb>section.w1{grid-column:1/-1}
+  .mo-grid{grid-template-columns:repeat(3,1fr)}
   .ab,.pj,.ct,.book{grid-template-columns:1fr}
   .abph{height:300px;margin:0 20px}
   .toc{flex-direction:row;overflow-x:auto;position:static}
@@ -894,12 +929,13 @@ window.SITE = {
             "widget": "gacha"
           },
           {
-            "t": "线下活动",
-            "en": "events",
-            "d": "从 0 到 1 搭公众号与账号运营，线下做过近 20 场沙龙。",
+            "t": "动起来",
+            "en": "in motion",
+            "d": "从 0 到 1 搭公众号、做过近 20 场沙龙；下班后还游泳、滑雪、打乒乓、摄影、唱歌。点一下，看它们动起来。",
             "c": "#FFE3CF",
-            "i": "team",
-            "widget": "none"
+            "i": "ball",
+            "widget": "motion",
+            "wide": true
           },
           {
             "t": "城市足迹",
@@ -1471,7 +1507,51 @@ const INIT = {
 let PANEL_KEYS = null;
 
 /* ---------- 爱好卡片里的小互动 ---------- */
+const MOSVG = {
+  swim: `<svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg"><rect width="120" height="80" rx="9" fill="#DDEFFB"/><circle cx="98" cy="16" r="8" fill="#FFD36E"/>
+    <path class="sw-wave" d="M-30 52q10-5 20 0t20 0 20 0 20 0 20 0 20 0 20 0 20 0v30H-30z" fill="#7FBCEB"/>
+    <path class="sw-wave" d="M-30 62q10-5 20 0t20 0 20 0 20 0 20 0 20 0 20 0 20 0 20 0v20H-30z" fill="#4F9EDB" opacity=".75"/>
+    <g class="sw-body"><ellipse cx="58" cy="52" rx="21" ry="5" fill="#2B3563" opacity=".16"/><ellipse cx="58" cy="49" rx="16" ry="4.5" fill="#E2434F"/>
+      <circle cx="43" cy="45" r="6.5" fill="#FFE0BD"/><path d="M38 42q5-6 11-1" stroke="#2B3563" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+      <g class="sw-arm"><path d="M66 48l15-10" stroke="#FFE0BD" stroke-width="4.2" stroke-linecap="round"/></g>
+      <path d="M72 51l11 4" stroke="#FFE0BD" stroke-width="4.2" stroke-linecap="round"/></g></svg>`,
+  ski: `<svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg"><rect width="120" height="80" rx="9" fill="#E9F4FB"/><circle cx="96" cy="16" r="8" fill="#FFD36E"/>
+    <path d="M0 22L120 76v4H0z" fill="#fff"/><path d="M0 22L120 76" stroke="#BFD9E8" stroke-width="2" fill="none"/>
+    <g fill="#7E9A76"><path d="M12 46l6-16 6 16z"/><path d="M22 54l5-13 5 13z"/></g>
+    <g class="sk-snow" fill="#fff" opacity=".9"><circle cx="20" cy="12" r="2"/><circle cx="48" cy="8" r="1.6"/><circle cx="74" cy="14" r="2"/><circle cx="100" cy="9" r="1.8"/><circle cx="34" cy="24" r="1.5"/><circle cx="86" cy="28" r="1.6"/></g>
+    <g class="sk-body"><path d="M16 46l22 12" stroke="#E2434F" stroke-width="3" stroke-linecap="round"/><path d="M14 43l22 12" stroke="#E2434F" stroke-width="3" stroke-linecap="round"/>
+      <path d="M30 49l-6-12" stroke="#1C2342" stroke-width="4.5" stroke-linecap="round"/><path d="M33 51l-4-11" stroke="#1C2342" stroke-width="4.5" stroke-linecap="round"/>
+      <circle cx="23" cy="33" r="5.5" fill="#FFE0BD"/><path d="M17 30q6-7 12 0z" fill="#2B3563"/>
+      <path d="M27 38l10 6" stroke="#E2434F" stroke-width="4" stroke-linecap="round"/><path d="M37 43l4-9" stroke="#8A6A4B" stroke-width="2"/></g></svg>`,
+  tt: `<svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg"><rect width="120" height="80" rx="9" fill="#FDF0E6"/>
+    <path d="M14 50h92l-9 14H23z" fill="#2B6CB0"/><path d="M60 50v14" stroke="#fff" stroke-width="2" opacity=".8"/>
+    <rect x="55" y="38" width="10" height="12" fill="#fff" stroke="#1C2342" stroke-width="1.4"/><path d="M60 50V38" stroke="#1C2342" stroke-width="2"/>
+    <g class="tt-l"><ellipse cx="26" cy="36" rx="9" ry="11" fill="#E2434F" stroke="#1C2342" stroke-width="1.5"/><path d="M24 46l-3 10" stroke="#8A6A4B" stroke-width="3.4" stroke-linecap="round"/></g>
+    <g class="tt-r"><ellipse cx="94" cy="36" rx="9" ry="11" fill="#2B3563" stroke="#1C2342" stroke-width="1.5"/><path d="M96 46l3 10" stroke="#8A6A4B" stroke-width="3.4" stroke-linecap="round"/></g>
+    <circle class="tt-ball" cx="32" cy="28" r="4.2" fill="#FFD36E" stroke="#fff" stroke-width="1.5"/></svg>`,
+  photo: `<svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg"><rect width="120" height="80" rx="9" fill="#EFEAF7"/>
+    <g class="ph-paper"><rect x="38" y="10" width="44" height="34" rx="3" fill="#fff" stroke="#1C2342" stroke-width="1.4"/><rect x="42" y="14" width="36" height="22" rx="1" fill="#AFC3E6"/>
+      <circle cx="51" cy="21" r="3.2" fill="#FFD36E"/><path d="M44 35l10-10 7 6 7-5 6 9z" fill="#7E9A76"/></g>
+    <rect x="24" y="42" width="72" height="28" rx="6" fill="#2B3563"/><rect x="32" y="37" width="22" height="7" rx="2" fill="#2B3563"/>
+    <circle cx="60" cy="56" r="12" fill="#F6F3EC"/><circle cx="60" cy="56" r="8" fill="#5B7BB8"/><circle cx="60" cy="56" r="4" fill="#1C2342"/>
+    <circle cx="85" cy="48" r="2.6" fill="#D6F04F"/>
+    <g class="ph-flash"><path d="M60 9V2M44 13l-5-6M76 13l5-6" stroke="#FFD36E" stroke-width="3" stroke-linecap="round"/></g></svg>`,
+  sing: `<svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg"><rect width="120" height="80" rx="9" fill="#FCE6EC"/>
+    <path class="sg-wave" d="M30 28q10 12 0 24" stroke="#E2434F" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+    <path class="sg-wave" d="M23 22q16 18 0 36" stroke="#E2434F" stroke-width="2.6" fill="none" stroke-linecap="round" opacity=".55" style="animation-delay:.25s"/>
+    <rect x="70" y="28" width="14" height="26" rx="7" fill="#2B3563"/><ellipse cx="77" cy="29" rx="8.5" ry="4.5" fill="#AFC3E6" stroke="#1C2342" stroke-width="1.2"/>
+    <path d="M77 54v10" stroke="#2B3563" stroke-width="3"/><path d="M68 65h18" stroke="#2B3563" stroke-width="3.2" stroke-linecap="round"/>
+    <text class="sg-note" x="40" y="36" font-size="18" fill="#E2434F">♪</text>
+    <text class="sg-note" x="54" y="24" font-size="14" fill="#5B7BB8" style="animation-delay:.5s">♫</text>
+    <text class="sg-note" x="92" y="24" font-size="16" fill="#E2434F" style="animation-delay:1s">♪</text></svg>`
+};
 const WIDGETS = {
+  motion(el, h) {
+    const list = h.motions || [{ n: "游泳", s: "swim" }, { n: "滑雪", s: "ski" }, { n: "乒乓球", s: "tt" }, { n: "摄影", s: "photo" }, { n: "唱歌", s: "sing" }];
+    el.innerHTML = `<div class="mo"><div class="mo-grid">${list.map(it => `<div class="mo-card">${MOSVG[it.s] || ""}<b>${esc(it.n)}</b></div>`).join("")}</div><button type="button" class="go" id="moBtn">▶ 让它们动起来</button></div>`;
+    const box = el.querySelector(".mo"), btn = el.querySelector("#moBtn");
+    btn.onclick = () => { const on = box.classList.toggle("playing"); btn.textContent = on ? "⏸ 暂停一下" : "▶ 让它们动起来"; };
+  },
   piano(el) {
     const whites = [60, 62, 64, 65, 67, 69, 71, 72, 74, 76, 77, 79, 81, 83, 84], kmap = "asdfghjkl;'".split("");
     const blacks = { 61: "w", 63: "e", 66: "t", 68: "y", 70: "u", 73: "o", 75: "p", 78: "", 80: "", 82: "" };

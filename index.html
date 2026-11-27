@@ -256,8 +256,8 @@ body.flat #gl,body.flat #labels{display:none}
 .wk.feat .wtx{flex:1}
 .media.phone{flex:none!important;width:200px;aspect-ratio:9/16;border:7px solid var(--ink);border-radius:30px;rotate:3deg;transition:rotate .4s}
 .wk.feat:hover .media.phone{rotate:0deg}
-.play{position:absolute;left:12px;bottom:12px;border:0;border-radius:999px;background:rgba(255,253,249,.95);color:var(--ink);font-weight:700;font-size:13px;padding:8px 14px;display:flex;gap:6px;align-items:center;transition:background .2s}
-.play:hover{background:var(--lime)}
+.media .play{position:absolute;left:12px;bottom:12px;border:0;border-radius:999px;background:rgba(255,253,249,.95);color:var(--ink);font-weight:700;font-size:13px;padding:8px 14px;display:flex;gap:6px;align-items:center;transition:background .2s}
+.media .play:hover{background:var(--lime)}
 .media.playing .play{display:none}
 .gal{display:flex;gap:10px;height:220px}
 .gal button{border:0;padding:0;border-radius:14px;overflow:hidden;flex:var(--ar,1) 1 0;min-width:0;position:relative}
@@ -345,9 +345,7 @@ body.flat #gl,body.flat #labels{display:none}
 /* motion hobbies：游泳 / 滑雪 / 乒乓 / 摄影 / 唱歌（点击单卡播放一次循环） */
 .mo{display:flex;flex-direction:column;gap:8px;flex:1}
 .mo-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
-.mo-card{position:relative;background:rgba(255,255,255,.7);border-radius:14px;padding:8px 6px 9px;text-align:center;overflow:hidden;box-shadow:0 4px 12px rgba(28,35,66,.07);min-width:0;cursor:pointer;transition:transform .2s,box-shadow .2s}
-.mo-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(28,35,66,.13)}
-.mo-card:active{transform:translateY(-1px)}
+.mo-card{position:relative;background:rgba(255,255,255,.7);border-radius:14px;padding:8px 6px 9px;text-align:center;overflow:hidden;box-shadow:0 4px 12px rgba(28,35,66,.07);min-width:0;cursor:pointer}
 .mo-card svg{width:100%;height:auto;display:block;border-radius:9px}
 .mo-card b{display:block;margin-top:6px;font-family:var(--f-hand-cn);font-size:13px;color:var(--ink);letter-spacing:.02em}
 /* 关键帧首尾一致：单次循环结束自然回到初态，不会跳变 */
@@ -363,19 +361,19 @@ body.flat #gl,body.flat #labels{display:none}
 @keyframes moPaper{0%,100%{transform:translateY(7px)}50%{transform:translateY(-3px)}}
 @keyframes moNote{0%{opacity:0;transform:translateY(12px) scale(.7)}20%{opacity:1}100%{opacity:0;transform:translateY(-26px) scale(1.15)}}
 @keyframes moWaveArc{0%,100%{transform:scaleX(.55);opacity:.25}50%{transform:scaleX(1);opacity:.85}}
-.mo-card.play .sw-body{animation:moSwim 1.5s ease-in-out 1}
-.mo-card.play .sw-arm{animation:moArm .75s ease-in-out 1;transform-box:fill-box;transform-origin:center}
-.mo-card.play .sw-wave{animation:moWave 1.4s linear 1}
-.mo-card.play .sk-body{animation:moSki 2.1s ease-in-out 1}
-.mo-card.play .sk-snow{animation:moSnow 1.5s linear 1}
-.mo-card.play .tt-ball{animation:moBall 1s ease-in-out 1}
-.mo-card.play .tt-l{animation:moPadL 1s ease-in-out 1;transform-box:fill-box;transform-origin:center}
-.mo-card.play .tt-r{animation:moPadR 1s ease-in-out 1;transform-box:fill-box;transform-origin:center}
-.mo-card.play .ph-flash{animation:moFlash 1.8s ease-out 1;transform-box:fill-box;transform-origin:center}
-.mo-card.play .ph-paper{animation:moPaper 1.8s ease-in-out 1}
-.mo-card.play .sg-note{animation:moNote 1.7s ease-out 1}
-.mo-card.play .sg-wave{animation:moWaveArc .95s ease-in-out 1;transform-box:fill-box;transform-origin:left center}
-@media (prefers-reduced-motion:reduce){.mo-card.play *{animation:none!important}}
+.mo-card.mo-playing .sw-body{animation:moSwim 1.5s ease-in-out 1}
+.mo-card.mo-playing .sw-arm{animation:moArm .75s ease-in-out 1;transform-box:fill-box;transform-origin:center}
+.mo-card.mo-playing .sw-wave{animation:moWave 1.4s linear 1}
+.mo-card.mo-playing .sk-body{animation:moSki 2.1s ease-in-out 1}
+.mo-card.mo-playing .sk-snow{animation:moSnow 1.5s linear 1}
+.mo-card.mo-playing .tt-ball{animation:moBall 1s ease-in-out 1}
+.mo-card.mo-playing .tt-l{animation:moPadL 1s ease-in-out 1;transform-box:fill-box;transform-origin:center}
+.mo-card.mo-playing .tt-r{animation:moPadR 1s ease-in-out 1;transform-box:fill-box;transform-origin:center}
+.mo-card.mo-playing .ph-flash{animation:moFlash 1.8s ease-out 1;transform-box:fill-box;transform-origin:center}
+.mo-card.mo-playing .ph-paper{animation:moPaper 1.8s ease-in-out 1}
+.mo-card.mo-playing .sg-note{animation:moNote 1.7s ease-out 1}
+.mo-card.mo-playing .sg-wave{animation:moWaveArc .95s ease-in-out 1;transform-box:fill-box;transform-origin:left center}
+@media (prefers-reduced-motion:reduce){.mo-card.mo-playing *{animation:none!important}}
 
 /* travel */
 .tvmap{position:relative;border-radius:16px;overflow:hidden;background:#1C2342;aspect-ratio:16/10}
@@ -1553,17 +1551,17 @@ const WIDGETS = {
     const cards = [...el.querySelectorAll(".mo-card")];
     cards.forEach(card => {
       const playOnce = () => {
-        card.classList.remove("play");
+        card.classList.remove("mo-playing");
         void card.offsetWidth; // 强制重排，保证连点时动画从头播放
-        card.classList.add("play");
-        // 取该卡内最长动画时长，播完移除 play，恢复静态、可再次触发
+        card.classList.add("mo-playing");
+        // 取该卡内最长动画时长，播完移除 mo-playing，恢复静态、可再次触发
         let max = 0;
         card.querySelectorAll("svg *").forEach(node => {
           const a = getComputedStyle(node).animationDuration.split(",");
           a.forEach(v => { max = Math.max(max, parseFloat(v) * (v.trim().endsWith("ms") ? 1 : 1000)); });
         });
         clearTimeout(card._moTimer);
-        card._moTimer = setTimeout(() => card.classList.remove("play"), (max || 2500) + 80);
+        card._moTimer = setTimeout(() => card.classList.remove("mo-playing"), (max || 2500) + 80);
       };
       card.addEventListener("click", playOnce);
       card.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); playOnce(); } });

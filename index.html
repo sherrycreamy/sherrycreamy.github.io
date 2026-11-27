@@ -2377,10 +2377,19 @@ async function boot3D() {
   const dGeo = new T.BufferGeometry(), dN = 120, dPos = new Float32Array(dN * 3); for (let i = 0; i < dN; i++) { dPos[i * 3] = (Math.random() - .5) * 12; dPos[i * 3 + 1] = Math.random() * 7.5; dPos[i * 3 + 2] = (Math.random() - .5) * 12; }
   dGeo.setAttribute("position", new T.BufferAttribute(dPos, 3)); const dust = new T.Points(dGeo, new T.PointsMaterial({ color: "#FFFFFF", size: .06, transparent: true, opacity: .55, depthWrite: false, map: steamTex })); root.add(dust);
   // avatar（SITE.avatar.model 指定 GLB 时优先用手办模型，加载失败回退到内置小人）
-  let av = null;
-  if (SITE.avatar && SITE.avatar.model) { LOADER.to(.7, "正在请出手办…"); av = await buildGLBAvatar(T, K, SITE.avatar); }
-  if (!av) av = buildAvatar(K, SITE.avatar);
+  // 手办 GLB 可能较大（网络慢时下载耗时），先用内置小人占位让场景秒开，
+  // GLB 后台加载完成后原地替换，不阻塞首屏进度。
+  let av = buildAvatar(K, SITE.avatar);
   const AVP = (room && room.avatarAt) || preset.avatarAt || [1.8, 0, 1.3]; at3(av, ...AVP); root.add(av);
+  if (SITE.avatar && SITE.avatar.model) {
+    buildGLBAvatar(T, K, SITE.avatar).then(glb => {
+      if (!glb) return; // 加载失败保留内置小人
+      glb.position.copy(av.position); glb.rotation.y = av.rotation.y;
+      const pb = av.userData.body, nb = glb.userData.body;
+      if (pb && nb) { nb.position.copy(pb.position); nb.rotation.copy(pb.rotation); }
+      root.remove(av); root.add(glb); av = glb;
+    }).catch(() => {});
+  }
   LOADER.to(.75, "快好了…");
 
   // assign modules → slots
